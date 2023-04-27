@@ -7,7 +7,7 @@
     "dev": "nodemon src/server.ts",
     "migrate:dev": "npx dotenv -e .env npx prisma migrate dev",
     "migrate:test": "npx dotenv -e .env.test npx prisma migrate dev",
-    "test": "npx dotenv -e .env.test npx jest"
+    "test": "npx dotenv -e .env.test npx jest -- --runInBand"
   },
   "keywords": [],
   "author": "",

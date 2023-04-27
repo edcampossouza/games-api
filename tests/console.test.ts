@@ -2,12 +2,14 @@ import supertest from "supertest";
 import app from "app";
 import httpStatus from "http-status";
 import { cleanDb } from "./helpers";
-import { Console } from "@prisma/client";
 import createConsole from "./factories/console-factory";
 
 const server = supertest(app);
 
 beforeEach(async () => {
+  await cleanDb();
+});
+afterEach(async () => {
   await cleanDb();
 });
 
@@ -16,7 +18,7 @@ describe("POST /consoles", () => {
     const result = await server.post("/consoles").send({ wrongKey: "ps5" });
     expect(result.status).toBe(httpStatus.UNPROCESSABLE_ENTITY);
   });
-  it("should return 409 if for duplicated console name ", async () => {
+  it("should return 409 for duplicated console name ", async () => {
     await createConsole("ps5");
     const result = await server.post("/consoles").send({ name: "ps5" });
     expect(result.status).toBe(httpStatus.CONFLICT);
